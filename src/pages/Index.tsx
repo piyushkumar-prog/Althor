@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import ContentGenerator from '@/components/ContentGenerator';
 import Footer from '@/components/Footer';
+import AIAgent from '@/components/AIAgent';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,6 +40,10 @@ const Index = () => {
       <main>
         <Hero />
         <Features />
+        <div id="generator" className="container mx-auto px-4 py-12">
+          <h2 className="text-3xl font-bold text-center mb-6">Experience the Power of AI</h2>
+          <AIAgent />
+        </div>
         <ContentGenerator />
       </main>
       
