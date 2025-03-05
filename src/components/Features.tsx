@@ -82,7 +82,7 @@ const Features = () => {
   }, []);
 
   return (
-    <section id="features" className="py-20 bg-gradient-to-b from-background to-secondary/30">
+    <section id="features" className="py-20 bg-gradient-to-b from-background to-secondary/10">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
@@ -101,10 +101,10 @@ const Features = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="feature-card bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 opacity-0 transform translate-y-8 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+              className="feature-card bg-secondary/20 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/5 opacity-0 transform translate-y-8 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
               style={{ transitionDelay: `${feature.delay}ms` }}
             >
-              <div className="mb-4 bg-primary/10 text-primary inline-flex p-3 rounded-lg">
+              <div className="mb-4 bg-primary/20 text-primary inline-flex p-3 rounded-lg">
                 <feature.icon size={24} className="animate-pulse" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>

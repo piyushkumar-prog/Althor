@@ -15,11 +15,16 @@ const Index = () => {
       setIsLoaded(true);
     }, 200);
 
-    return () => clearTimeout(timer);
+    // Set dark mode class on the document
+    document.documentElement.classList.add('dark');
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
-    <div className={`min-h-screen flex flex-col transition-all duration-1000 ease-in-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+    <div className={`min-h-screen flex flex-col transition-all duration-1000 ease-in-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'} dark`}>
       <Header />
       
       <main>
@@ -35,13 +40,13 @@ const Index = () => {
         {[...Array(6)].map((_, i) => (
           <div 
             key={i}
-            className="absolute rounded-full bg-primary/5 blur-3xl"
+            className="absolute rounded-full bg-primary/10 blur-3xl"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               width: `${100 + Math.random() * 200}px`,
               height: `${100 + Math.random() * 200}px`,
-              opacity: 0.7,
+              opacity: 0.3,
               animationDuration: `${15 + Math.random() * 15}s`,
               animationDelay: `${Math.random() * 5}s`,
               animationIterationCount: 'infinite',

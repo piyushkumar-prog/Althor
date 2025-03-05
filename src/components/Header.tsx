@@ -28,14 +28,14 @@ const Header = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' 
+          ? 'bg-secondary/50 backdrop-blur-md shadow-md py-3' 
           : 'bg-transparent py-5'
       } ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'}`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 group">
-          <span className="text-primary text-2xl font-bold transition-transform duration-300 group-hover:scale-105">WriteWise</span>
+          <span className="text-primary text-2xl font-bold transition-transform duration-300 group-hover:scale-105">Althor</span>
           <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium backdrop-blur-sm flex items-center">
             <Sparkles className="w-3 h-3 mr-1 animate-pulse" />
             AI
@@ -65,10 +65,10 @@ const Header = () => {
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
             }}>
-            <Button size="sm" variant="outline" className="backdrop-blur-sm bg-white/5 border-white/20 hover:bg-white/10">
+            <Button size="sm" variant="outline" className="backdrop-blur-sm border-white/10 hover:bg-white/10">
               Sign In
             </Button>
-            <Button size="sm" className="shadow-md hover:shadow-lg hover:shadow-primary/20">
+            <Button size="sm" className="shadow-md hover:shadow-lg hover:shadow-primary/20 bg-primary text-primary-foreground">
               Get Started
             </Button>
           </div>
@@ -89,7 +89,7 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <div 
-        className={`md:hidden absolute top-full left-0 right-0 bg-white/90 backdrop-blur-lg border-b border-border transition-all duration-300 ${
+        className={`md:hidden absolute top-full left-0 right-0 bg-secondary/80 backdrop-blur-lg border-b border-border transition-all duration-300 ${
           isMobileMenuOpen 
             ? 'max-h-96 opacity-100' 
             : 'max-h-0 opacity-0 pointer-events-none'
@@ -121,7 +121,7 @@ const Header = () => {
             <Button variant="outline" size="sm" className="w-full">
               Sign In
             </Button>
-            <Button size="sm" className="w-full">
+            <Button size="sm" className="w-full bg-primary text-primary-foreground">
               Get Started
             </Button>
           </div>

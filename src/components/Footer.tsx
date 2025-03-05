@@ -3,12 +3,12 @@ import { Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary py-12">
+    <footer className="bg-secondary/20 py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="font-bold text-lg mb-4 flex items-center">
-              WriteWise
+              Althor
               <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium ml-2">
                 AI
               </span>
@@ -49,10 +49,10 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="pt-8 border-t border-border">
+        <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-foreground/70 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} WriteWise. All rights reserved.
+              © {new Date().getFullYear()} Althor. All rights reserved.
             </p>
             
             <div className="flex space-x-6">
