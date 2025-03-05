@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Sparkles } from 'lucide-react';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,20 +13,25 @@ const Hero = () => {
 
   return (
     <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-secondary/20 to-transparent pointer-events-none" />
+      
+      {/* Animated background circles */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       
       {/* Content container */}
       <div className="container mx-auto px-4 relative">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Main heading with animated reveal */}
+          {/* Tag with animated reveal */}
           <div className={`transition-all duration-700 delay-100 transform ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-8'}`}>
-            <span className="inline-block bg-primary/10 text-primary text-sm font-medium px-4 py-1.5 rounded-full mb-5">
+            <span className="inline-block bg-primary/10 text-primary text-sm font-medium px-4 py-1.5 rounded-full mb-5 backdrop-blur-sm">
+              <Sparkles className="inline-block w-4 h-4 mr-2 animate-pulse" />
               AI-Powered Writing Assistant
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
               Craft Perfect Content with{' '}
-              <span className="text-primary relative">
+              <span className="relative inline-block">
                 AI Precision
                 <svg className="absolute -bottom-1 left-0 w-full h-2 text-primary/30" viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0,17.5 C30,2.5 70,2.5 100,17.5 L100,0 L0,0 L0,17.5" fill="currentColor"/>
@@ -44,10 +49,15 @@ const Hero = () => {
           
           {/* CTA buttons with animated reveal */}
           <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-500 transform ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-8'}`}>
-            <Button size="lg" className="px-8 font-medium" asChild>
-              <a href="#generator">Try Now</a>
+            <Button size="lg" className="px-8 font-medium shadow-lg hover:shadow-primary/20 group" asChild>
+              <a href="#generator" className="group">
+                Try Now
+                <svg className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
             </Button>
-            <Button size="lg" variant="outline" className="px-8 font-medium">
+            <Button size="lg" variant="outline" className="px-8 font-medium backdrop-blur-sm bg-white/10 border-white/20 hover:bg-white/20">
               Learn More
             </Button>
           </div>

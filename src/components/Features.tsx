@@ -82,11 +82,12 @@ const Features = () => {
   }, []);
 
   return (
-    <section id="features" className="py-20 bg-secondary">
+    <section id="features" className="py-20 bg-gradient-to-b from-background to-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
             Powerful Features
+            <span className="absolute -bottom-2 left-0 right-0 h-1 bg-primary/50 rounded-full transform scale-x-50 transition-transform duration-500 group-hover:scale-x-100"></span>
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             Everything you need to create outstanding content that engages your audience and drives results.
@@ -100,11 +101,11 @@ const Features = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="feature-card bg-white rounded-lg p-6 shadow-sm border border-border opacity-0 transform translate-y-8 transition-all duration-500"
+              className="feature-card bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 opacity-0 transform translate-y-8 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
               style={{ transitionDelay: `${feature.delay}ms` }}
             >
               <div className="mb-4 bg-primary/10 text-primary inline-flex p-3 rounded-lg">
-                <feature.icon size={24} />
+                <feature.icon size={24} className="animate-pulse" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-foreground/70">{feature.description}</p>
@@ -113,7 +114,7 @@ const Features = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .feature-card.is-visible {
           opacity: 1;
           transform: translateY(0);

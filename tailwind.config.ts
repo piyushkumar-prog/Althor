@@ -97,6 +97,40 @@ export default {
 				shimmer: {
 					from: { backgroundPosition: '200% 0' },
 					to: { backgroundPosition: '-200% 0' }
+				},
+				spin: {
+					from: { transform: 'rotate(0deg)' },
+					to: { transform: 'rotate(360deg)' }
+				},
+				pulsate: {
+					'0%, 100%': { opacity: '1', transform: 'scale(1)' },
+					'50%': { opacity: '0.85', transform: 'scale(0.98)' }
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				wave: {
+					'0%': { transform: 'rotate(0deg)' },
+					'10%': { transform: 'rotate(14deg)' },
+					'20%': { transform: 'rotate(-8deg)' },
+					'30%': { transform: 'rotate(14deg)' },
+					'40%': { transform: 'rotate(-4deg)' },
+					'50%': { transform: 'rotate(10deg)' },
+					'60%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(0deg)' }
+				},
+				slideInRight: {
+					from: { transform: 'translateX(100%)', opacity: '0' },
+					to: { transform: 'translateX(0)', opacity: '1' }
+				},
+				slideInLeft: {
+					from: { transform: 'translateX(-100%)', opacity: '0' },
+					to: { transform: 'translateX(0)', opacity: '1' }
+				},
+				scaleIn: {
+					from: { transform: 'scale(0.9)', opacity: '0' },
+					to: { transform: 'scale(1)', opacity: '1' }
 				}
 			},
 			animation: {
@@ -104,7 +138,14 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fadeIn 0.5s ease-out forwards',
 				'slide-up': 'slideUp 0.5s ease-out forwards',
-				'shimmer': 'shimmer 2s infinite linear'
+				'shimmer': 'shimmer 2s infinite linear',
+				'spin-slow': 'spin 3s linear infinite',
+				'pulsate': 'pulsate 2s ease-in-out infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'wave': 'wave 2.5s ease-in-out infinite',
+				'slide-in-right': 'slideInRight 0.5s forwards',
+				'slide-in-left': 'slideInLeft 0.5s forwards',
+				'scale-in': 'scaleIn 0.5s forwards'
 			}
 		}
 	},
