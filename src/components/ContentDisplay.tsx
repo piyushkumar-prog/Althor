@@ -1,4 +1,3 @@
-
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,9 +15,10 @@ import { toast } from 'sonner';
 interface ContentDisplayProps {
   content: string;
   isGenerating: boolean;
+  className?: string; // Add className to props
 }
 
-const ContentDisplay = ({ content, isGenerating }: ContentDisplayProps) => {
+const ContentDisplay = ({ content, isGenerating, className }: ContentDisplayProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const [copied, setCopied] = useState(false);
@@ -64,7 +64,7 @@ const ContentDisplay = ({ content, isGenerating }: ContentDisplayProps) => {
 
   if (isGenerating) {
     return (
-      <div className="glass-card rounded-xl p-8 min-h-[300px] flex flex-col items-center justify-center space-y-4">
+      <div className={`glass-card rounded-xl p-8 min-h-[300px] flex flex-col items-center justify-center space-y-4 ${className}`}>
         <div className="w-full h-4 bg-gray-200 rounded shimmer mb-2"></div>
         <div className="w-full h-4 bg-gray-200 rounded shimmer mb-2"></div>
         <div className="w-3/4 h-4 bg-gray-200 rounded shimmer mb-2"></div>
@@ -79,7 +79,7 @@ const ContentDisplay = ({ content, isGenerating }: ContentDisplayProps) => {
 
   if (!content) {
     return (
-      <div className="glass-card rounded-xl p-8 min-h-[300px] flex flex-col items-center justify-center text-center">
+      <div className={`glass-card rounded-xl p-8 min-h-[300px] flex flex-col items-center justify-center text-center ${className}`}>
         <FileText size={48} className="text-muted-foreground/50 mb-4" />
         <h3 className="text-xl font-medium mb-2">No Content Generated Yet</h3>
         <p className="text-muted-foreground">
@@ -90,7 +90,7 @@ const ContentDisplay = ({ content, isGenerating }: ContentDisplayProps) => {
   }
 
   return (
-    <div className="glass-card rounded-xl p-6 overflow-hidden">
+    <div className={`glass-card rounded-xl p-6 overflow-hidden ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-medium">Generated Content</h3>
         <div className="flex items-center gap-2">
@@ -114,10 +114,10 @@ const ContentDisplay = ({ content, isGenerating }: ContentDisplayProps) => {
             ref={textAreaRef}
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="min-h-[250px] resize-none p-4 leading-relaxed"
+            className="min-h-[250px] resize-none p-4 leading-relaxed !bg-black text-white"
           />
         ) : (
-          <div className="bg-white border border-border rounded-md p-4 min-h-[250px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
+          <div className="bg-black border border-border rounded-md p-4 min-h-[250px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
             {editedContent}
           </div>
         )}

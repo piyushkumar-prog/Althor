@@ -1,5 +1,7 @@
-
 import { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { Mistral } from '@mistralai/mistralai'; // New import
+
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Send, Bot, Sparkles, User } from 'lucide-react';
@@ -22,39 +24,48 @@ const AIAgent = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const simulateThinking = (prompt: string) => {
-    const thinkingTime = Math.min(1000 + prompt.length * 10, 3000);
-    
+  const apiKey = import.meta.env.VITE_MISTRAL_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('Missing Mistral API key');
+  }
+  const client = new Mistral({ apiKey });
+
+  const fetchAIResponse = async (prompt: string) => {
     setIsThinking(true);
-    
-    // Add thinking message
     setMessages(prevMessages => [
-      ...prevMessages,
-      {type: 'ai', content: '', thinking: true}
+        ...prevMessages,
+        { type: 'ai', content: '', thinking: true }
     ]);
-    
-    // After "thinking", replace with response
-    setTimeout(() => {
-      setIsThinking(false);
-      
-      // Replace thinking message with actual response
-      setMessages(prevMessages => {
-        const newMessages = [...prevMessages];
-        newMessages.pop(); // Remove thinking message
-        
-        const responses = [
-          `I've analyzed your request "${prompt}" and I think I can help with that! Let me craft something special for you...`,
-          `That's an interesting question about "${prompt}"! Here's what I think...`,
-          `I'd be happy to help with "${prompt}". Based on my knowledge, I'd suggest...`,
-          `Great question about "${prompt}"! Let me walk you through some ideas...`,
-          `I've thought about "${prompt}" and have some insights to share with you...`
-        ];
-        
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        newMessages.push({type: 'ai', content: randomResponse});
-        return newMessages;
-      });
-    }, thinkingTime);
+
+    try {
+        const chatResponse = await client.chat.complete({
+            model: 'mistral-large-latest',
+            messages: [{ role: 'user', content: prompt }],
+        });
+
+const aiResponse = Array.isArray(chatResponse.choices[0].message.content) 
+    ? chatResponse.choices[0].message.content.join(' ') 
+    : chatResponse.choices[0].message.content; // Adjusted response handling
+
+
+        setMessages(prevMessages => {
+            const newMessages = [...prevMessages];
+            newMessages.pop(); // Remove thinking message
+            newMessages.push({ type: 'ai', content: aiResponse });
+            return newMessages;
+        });
+    } catch (error) {
+        console.error('Error fetching AI response:', error);
+        setMessages(prevMessages => {
+            const newMessages = [...prevMessages];
+            newMessages.pop(); // Remove thinking message
+            newMessages.push({ type: 'ai', content: 'Sorry, I could not fetch a response at this time.' });
+            return newMessages;
+        });
+    } finally {
+        setIsThinking(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -70,8 +81,8 @@ const AIAgent = () => {
       {type: 'user', content: userMessage}
     ]);
     
-    // Simulate AI thinking and responding
-    simulateThinking(userMessage);
+    // Fetch AI response
+    fetchAIResponse(userMessage);
   };
 
   return (
