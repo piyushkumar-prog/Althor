@@ -131,6 +131,38 @@ export default {
 				scaleIn: {
 					from: { transform: 'scale(0.9)', opacity: '0' },
 					to: { transform: 'scale(1)', opacity: '1' }
+				},
+				// New animation keyframes
+				blink: {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0' }
+				},
+				floatAround: {
+					'0%': { transform: 'translate(0px, 0px)', opacity: '0.2' },
+					'25%': { transform: 'translate(10px, -10px)', opacity: '0.5' },
+					'50%': { transform: 'translate(15px, 0px)', opacity: '0.8' },
+					'75%': { transform: 'translate(5px, 10px)', opacity: '0.5' },
+					'100%': { transform: 'translate(0px, 0px)', opacity: '0.2' }
+				},
+				pulse: {
+					'0%, 100%': { opacity: '0.2', transform: 'scale(1)' },
+					'50%': { opacity: '0.7', transform: 'scale(1.5)' }
+				},
+				floatUpDown: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-20px)' }
+				},
+				growShrink: {
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.2)' }
+				},
+				waveX: {
+					'0%, 100%': { transform: 'scaleX(1)' },
+					'50%': { transform: 'scaleX(1.1)' }
+				},
+				rotateSlowly: {
+					from: { transform: 'rotate(0deg)' },
+					to: { transform: 'rotate(360deg)' }
 				}
 			},
 			animation: {
@@ -145,7 +177,15 @@ export default {
 				'wave': 'wave 2.5s ease-in-out infinite',
 				'slide-in-right': 'slideInRight 0.5s forwards',
 				'slide-in-left': 'slideInLeft 0.5s forwards',
-				'scale-in': 'scaleIn 0.5s forwards'
+				'scale-in': 'scaleIn 0.5s forwards',
+				// New animations
+				'blink': 'blink 1s step-end infinite',
+				'float-around': 'floatAround 10s infinite alternate',
+				'pulse-glow': 'pulse 3s infinite alternate',
+				'float-up-down': 'floatUpDown 6s ease-in-out infinite',
+				'grow-shrink': 'growShrink 5s ease-in-out infinite',
+				'wave-x': 'waveX 3s ease-in-out infinite',
+				'rotate-slowly': 'rotateSlowly 15s linear infinite'
 			}
 		}
 	},
