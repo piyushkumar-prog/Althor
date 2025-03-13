@@ -31,7 +31,16 @@ const AIAgent = () => {
   }
   const client = new Mistral({ apiKey });
 
-  const fetchAIResponse = async (prompt: string) => {
+const handleFeedback = async (feedback: string) => {
+    // Logic to handle user feedback and reevaluate the AI response
+    const previousMessage = messages[messages.length - 1].content;
+    const prompt = `The previous response was: "${previousMessage}". User feedback: "${feedback}". Please provide a revised response.`;
+    
+    await fetchAIResponse(prompt);
+};
+
+const fetchAIResponse = async (prompt: string) => {
+
     setIsThinking(true);
     setMessages(prevMessages => [
         ...prevMessages,
@@ -68,7 +77,12 @@ const aiResponse = Array.isArray(chatResponse.choices[0].message.content)
     }
   };
 
+  const handleFeedbackSubmit = (feedback: string) => {
+    handleFeedback(feedback);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!input.trim() || isThinking) return;
     
@@ -166,6 +180,11 @@ const aiResponse = Array.isArray(chatResponse.choices[0].message.content)
       
       {/* Input form */}
       <form onSubmit={handleSubmit} className="flex gap-2 items-end">
+        <div className="flex gap-2">
+          <Button onClick={() => handleFeedbackSubmit('thumbs up')}>👍</Button>
+          <Button onClick={() => handleFeedbackSubmit('thumbs down')}>👎</Button>
+        </div>
+
         <Textarea
           placeholder="Ask me anything..."
           value={input}
