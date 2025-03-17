@@ -33,7 +33,13 @@ interface FormData {
   tone: string;
   keywords: string;
   additionalInfo: string;
+  contentStructure: string[];
+  targetAudience: string;
+  language: string;
+  sentiment: string;
+  writingStyle: string;
 }
+
 
 // Custom type definitions for API responses
 interface ContentChunk {
@@ -101,11 +107,40 @@ const getDefaultMistralClient = () => {
 
 const generateContentWithMistralAI = async (formData: FormData, modelConfig: AIModelConfig): Promise<string> => {
   // Construct prompt based on content type and requirements
+  const promptMistral = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
+
+    formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
+  }${
+    formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
+  }`;
+
+  // Construct prompt based on content type and requirements
   const prompt = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
     formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
   }${
     formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
   }`;
+
 
   try {
     // Use custom API key if provided
@@ -147,11 +182,40 @@ const generateContentWithMistralAI = async (formData: FormData, modelConfig: AIM
 
 const generateContentWithOpenAI = async (formData: FormData, modelConfig: AIModelConfig): Promise<string> => {
   // Construct prompt based on content type and requirements
+  const promptOpenAI = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
+
+    formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
+  }${
+    formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
+  }`;
+
+  // Construct prompt based on content type and requirements
   const prompt = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
     formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
   }${
     formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
   }`;
+
 
   try {
     // Require API key for OpenAI
@@ -187,11 +251,40 @@ const generateContentWithOpenAI = async (formData: FormData, modelConfig: AIMode
 
 const generateContentWithAnthropic = async (formData: FormData, modelConfig: AIModelConfig): Promise<string> => {
   // Construct prompt based on content type and requirements
+  const promptAnthropic = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
+
+    formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
+  }${
+    formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
+  }`;
+
+  // Construct prompt based on content type and requirements
   const prompt = `Generate a ${formData.contentType} about ${formData.topic} in a ${formData.tone} tone.${
     formData.keywords ? ` Include these keywords: ${formData.keywords}.` : ''
   }${
     formData.additionalInfo ? ` Additional context: ${formData.additionalInfo}` : ''
+  }${
+    formData.contentStructure.length ? ` Structure: ${formData.contentStructure.join(', ')}.` : ''
+  }${
+    formData.targetAudience ? ` Target audience: ${formData.targetAudience}.` : ''
+  }${
+    formData.language ? ` Language: ${formData.language}.` : ''
+  }${
+    formData.sentiment ? ` Sentiment: ${formData.sentiment}.` : ''
+  }${
+    formData.writingStyle ? ` Writing style: ${formData.writingStyle}.` : ''
   }`;
+
 
   try {
     // Require API key for Anthropic
@@ -236,6 +329,9 @@ const generateContentWithAnthropic = async (formData: FormData, modelConfig: AIM
 
 // Function to process voice commands using Eleven Labs API
 const processVoiceCommand = async (audioBlob: Blob, modelConfig: AIModelConfig): Promise<FormData> => {
+  // Ensure all properties are included in the returned FormData
+  let extractedData: FormData;
+
   try {
     // First, transcribe the audio using Eleven Labs
     const formData = new FormData();
@@ -390,7 +486,13 @@ const processVoiceCommand = async (audioBlob: Blob, modelConfig: AIModelConfig):
         contentType: 'blog-post',
         tone: 'professional',
         keywords: '',
-        additionalInfo: ''
+      additionalInfo: '',
+      contentStructure: [],
+      targetAudience: '',
+      language: '',
+      sentiment: '',
+      writingStyle: '',
+
       };
     }
 
@@ -399,8 +501,14 @@ const processVoiceCommand = async (audioBlob: Blob, modelConfig: AIModelConfig):
       contentType: extractedData.contentType || 'blog-post',
       tone: extractedData.tone || 'professional',
       keywords: extractedData.keywords || '',
-      additionalInfo: extractedData.additionalInfo || ''
+      additionalInfo: extractedData.additionalInfo || '',
+      contentStructure: extractedData.contentStructure || [],
+      targetAudience: extractedData.targetAudience || '',
+      language: extractedData.language || '',
+      sentiment: extractedData.sentiment || '',
+      writingStyle: extractedData.writingStyle || '',
     };
+
   } catch (error) {
     console.error('Error processing voice command:', error);
     throw error;

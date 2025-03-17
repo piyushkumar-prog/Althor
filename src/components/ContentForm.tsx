@@ -10,6 +10,8 @@ import {
   SelectValue
 } from './ui/select';
 import { toast } from 'sonner';
+import { Checkbox } from './ui/checkbox';
+import { Label } from './ui/label';
 
 interface ContentFormProps {
   onGenerate: (formData: FormData) => void;
@@ -22,7 +24,15 @@ interface FormData {
   tone: string;
   keywords: string;
   additionalInfo: string;
+  // New fields
+  contentStructure: string[];
+  targetAudience: string;
+  language: string;
+  sentiment: string;
+  writingStyle: string;
+  // Ensure all parameters are included
 }
+
 
 const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
   const [formData, setFormData] = useState<FormData>({
@@ -31,6 +41,12 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
     tone: 'professional',
     keywords: '',
     additionalInfo: '',
+    // New fields with defaults
+    contentStructure: ['headings', 'subheadings'],
+    targetAudience: 'general',
+    language: 'english',
+    sentiment: 'neutral',
+    writingStyle: 'informative',
   });
 
   const handleChange = (
@@ -44,7 +60,25 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleStructureChange = (value: string) => {
+    setFormData(prev => {
+      const currentStructure = [...prev.contentStructure];
+      
+      if (currentStructure.includes(value)) {
+        return {
+          ...prev,
+          contentStructure: currentStructure.filter(item => item !== value)
+        };
+      } else {
+        return {
+          ...prev,
+          contentStructure: [...currentStructure, value]
+        };
+      }
+    });
+  };
+
+const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.topic.trim()) {
@@ -52,8 +86,10 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
       return;
     }
     
+    // Ensure all parameters are passed to onGenerate
     onGenerate(formData);
   };
+
 
   const contentTypes = [
     { value: 'blog-post', label: 'Blog Post' },
@@ -71,6 +107,55 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
     { value: 'informative', label: 'Informative' },
     { value: 'formal', label: 'Formal' },
     { value: 'humorous', label: 'Humorous' },
+  ];
+
+  const targetAudiences = [
+    { value: 'general', label: 'General Public' },
+    { value: 'professionals', label: 'Professionals' },
+    { value: 'experts', label: 'Industry Experts' },
+    { value: 'students', label: 'Students' },
+    { value: 'kids', label: 'Children' },
+    { value: 'seniors', label: 'Seniors' },
+  ];
+
+  const languages = [
+    { value: 'english', label: 'English' },
+    { value: 'hindi', label: 'Hindi' },
+    { value: 'spanish', label: 'Spanish' },
+    { value: 'french', label: 'French' },
+    { value: 'german', label: 'German' },
+    { value: 'chinese', label: 'Chinese' },
+    { value: 'japanese', label: 'Japanese' },
+    { value: 'arabic', label: 'Arabic' },
+    { value: 'russian', label: 'Russian' },
+  ];
+
+  const sentiments = [
+    { value: 'neutral', label: 'Neutral' },
+    { value: 'positive', label: 'Positive' },
+    { value: 'negative', label: 'Negative' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'inspiring', label: 'Inspiring' },
+    { value: 'urgent', label: 'Urgent' },
+  ];
+
+  const writingStyles = [
+    { value: 'informative', label: 'Informative' },
+    { value: 'storytelling', label: 'Storytelling' },
+    { value: 'technical', label: 'Technical' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'academic', label: 'Academic' },
+    { value: 'journalistic', label: 'Journalistic' },
+    { value: 'persuasive', label: 'Persuasive' },
+  ];
+
+  const structureOptions = [
+    { value: 'headings', label: 'Headings' },
+    { value: 'subheadings', label: 'Subheadings' },
+    { value: 'bullet-points', label: 'Bullet Points' },
+    { value: 'numbered-lists', label: 'Numbered Lists' },
+    { value: 'paragraphs', label: 'Paragraphs' },
+    { value: 'quotes', label: 'Quotes' },
   ];
 
   return (
@@ -114,6 +199,50 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
           </div>
 
           <div>
+            <label htmlFor="language" className="block text-sm font-medium mb-1">
+              Language
+            </label>
+            <Select
+              value={formData.language}
+              onValueChange={(value) => handleSelectChange('language', value)}
+            >
+              <SelectTrigger id="language">
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent>
+                {languages.map((language) => (
+                  <SelectItem key={language.value} value={language.value}>
+                    {language.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="targetAudience" className="block text-sm font-medium mb-1">
+              Target Audience
+            </label>
+            <Select
+              value={formData.targetAudience}
+              onValueChange={(value) => handleSelectChange('targetAudience', value)}
+            >
+              <SelectTrigger id="targetAudience">
+                <SelectValue placeholder="Select target audience" />
+              </SelectTrigger>
+              <SelectContent>
+                {targetAudiences.map((audience) => (
+                  <SelectItem key={audience.value} value={audience.value}>
+                    {audience.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <label htmlFor="tone" className="block text-sm font-medium mb-1">
               Tone
             </label>
@@ -133,6 +262,71 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
               </SelectContent>
             </Select>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="sentiment" className="block text-sm font-medium mb-1">
+              Sentiment
+            </label>
+            <Select
+              value={formData.sentiment}
+              onValueChange={(value) => handleSelectChange('sentiment', value)}
+            >
+              <SelectTrigger id="sentiment">
+                <SelectValue placeholder="Select sentiment" />
+              </SelectTrigger>
+              <SelectContent>
+                {sentiments.map((sentiment) => (
+                  <SelectItem key={sentiment.value} value={sentiment.value}>
+                    {sentiment.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <label htmlFor="writingStyle" className="block text-sm font-medium mb-1">
+              Writing Style
+            </label>
+            <Select
+              value={formData.writingStyle}
+              onValueChange={(value) => handleSelectChange('writingStyle', value)}
+            >
+              <SelectTrigger id="writingStyle">
+                <SelectValue placeholder="Select writing style" />
+              </SelectTrigger>
+              <SelectContent>
+                {writingStyles.map((style) => (
+                  <SelectItem key={style.value} value={style.value}>
+                    {style.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Content Structure
+          </label>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {structureOptions.map((option) => (
+              <div key={option.value} className="flex items-center space-x-2">
+                <Checkbox 
+                  id={`structure-${option.value}`} 
+                  checked={formData.contentStructure.includes(option.value)}
+                  onCheckedChange={() => handleStructureChange(option.value)}
+                />
+                <Label htmlFor={`structure-${option.value}`}>{option.label}</Label>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Select the structural elements to include in your content
+          </p>
         </div>
 
         <div>
