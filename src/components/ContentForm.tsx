@@ -1,15 +1,14 @@
-
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 import { 
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '@/components/ui/select';
+} from './ui/select';
 import { toast } from 'sonner';
 
 interface ContentFormProps {
@@ -84,7 +83,7 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
           <Input
             id="topic"
             name="topic"
-            placeholder="Enter your content topic or title"
+            placeholder="What topic do you want to write about?"
             value={formData.topic}
             onChange={handleChange}
             className="w-full"
@@ -149,7 +148,7 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
             className="w-full"
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Add SEO keywords to optimize your content
+            Optional: Add keywords to improve SEO for your content
           </p>
         </div>
 
@@ -160,7 +159,7 @@ const ContentForm = ({ onGenerate, isGenerating }: ContentFormProps) => {
           <Textarea
             id="additionalInfo"
             name="additionalInfo"
-            placeholder="Add any additional information or context"
+            placeholder="Any additional context or details for the content?"
             value={formData.additionalInfo}
             onChange={handleChange}
             className="w-full min-h-[100px]"
