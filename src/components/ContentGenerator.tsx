@@ -335,8 +335,10 @@ const processVoiceCommand = async (audioBlob: Blob, modelConfig: AIModelConfig):
   try {
     // First, transcribe the audio using Eleven Labs
     const formData = new FormData();
-    formData.append('audio', audioBlob, 'recording.wav');
+    formData.append('file', audioBlob);
     formData.append('model_id', 'eleven_multilingual_v2');
+
+    console.log('Sending request to Eleven Labs API');
 
     const transcriptionResponse = await axios.post(
       'https://api.elevenlabs.io/v1/speech-to-text',
@@ -344,7 +346,6 @@ const processVoiceCommand = async (audioBlob: Blob, modelConfig: AIModelConfig):
       {
         headers: {
           'xi-api-key': import.meta.env.VITE_ELEVEN_LABS_API_KEY,
-          'Content-Type': 'multipart/form-data',
         },
       }
     );
